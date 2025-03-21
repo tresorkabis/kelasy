@@ -17,7 +17,7 @@ class AnneeScolaireResource extends Resource
 {
     protected static ?string $model = AnneeScolaire::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
     public static function form(Form $form): Form
     {

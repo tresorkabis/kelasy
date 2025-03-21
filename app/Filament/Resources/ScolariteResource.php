@@ -17,7 +17,7 @@ class ScolariteResource extends Resource
 {
     protected static ?string $model = Scolarite::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     public static function form(Form $form): Form
     {
