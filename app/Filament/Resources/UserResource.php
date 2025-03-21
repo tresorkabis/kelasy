@@ -6,6 +6,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -20,13 +22,29 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->required(),
+                TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->disabled(function (?User $record = null) {
+                        return $record !== null;
+                    }),
+                TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->revealable()
+                    ->visible(function (?User $record = null) {
+                        return $record !== null;
+                    }),
+                DatePicker::make('email_verified_at')
+                    ->maxDate(now()),
             ]);
     }
 
