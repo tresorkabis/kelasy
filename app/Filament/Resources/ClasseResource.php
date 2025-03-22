@@ -6,9 +6,11 @@ use App\Filament\Resources\ClasseResource\Pages;
 use App\Filament\Resources\ClasseResource\RelationManagers;
 use App\Models\Classe;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +25,7 @@ class ClasseResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('nom')
             ]);
     }
 
@@ -31,7 +33,16 @@ class ClasseResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('titre'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->since()
+                    ->label('Crée'),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
