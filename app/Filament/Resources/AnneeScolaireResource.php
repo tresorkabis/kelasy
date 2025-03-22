@@ -39,6 +39,8 @@ class AnneeScolaireResource extends Resource
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Crée')
+                    ->since()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
