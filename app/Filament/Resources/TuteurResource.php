@@ -6,9 +6,11 @@ use App\Filament\Resources\TuteurResource\Pages;
 use App\Filament\Resources\TuteurResource\RelationManagers;
 use App\Models\Tuteur;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +25,12 @@ class TuteurResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('nom'),
+                TextInput::make('postnom'),
+                TextInput::make('prenom')
+                    ->label('Prénom'),
+                TextInput::make('telephone'),
+                TextInput::make('degre'),
             ]);
     }
 
@@ -31,7 +38,20 @@ class TuteurResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('nom'),
+                TextColumn::make('postnom'),
+                TextColumn::make('prenom'),
+                TextColumn::make('telephone'),
+                TextColumn::make('degre'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->since()
+                    ->label('Crée'),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

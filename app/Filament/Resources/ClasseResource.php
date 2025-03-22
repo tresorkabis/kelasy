@@ -33,7 +33,7 @@ class ClasseResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('titre'),
+                TextColumn::make('nom'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
