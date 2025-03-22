@@ -17,6 +17,8 @@ class AnneeScolaireResource extends Resource
 {
     protected static ?string $model = AnneeScolaire::class;
 
+    protected static ?string $navigationLabel = "Année Scolaire";
+
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
     public static function form(Form $form): Form

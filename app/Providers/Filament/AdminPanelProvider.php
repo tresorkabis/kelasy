@@ -17,6 +17,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\FontProviders\GoogleFontProvider;
+use Illuminate\Contracts\View\View;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,9 +32,16 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->profile()
             ->colors([
-                'primary' => Color::Slate,
-                'gray' => Color::Gray
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Sky,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange
             ])
+            ->font('Inter', provider: GoogleFontProvider::class)
+            ->brandLogo(fn(): View => view('filament.logo'))
+            ->favicon(asset('images/favicon.s'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -56,6 +65,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->viteTheme('resources/css/filament/app/theme.css');
     }
 }

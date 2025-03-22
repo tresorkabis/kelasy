@@ -10,6 +10,8 @@ class ListAnneeScolaires extends ListRecords
 {
     protected static string $resource = AnneeScolaireResource::class;
 
+    protected static ?string $title = "Année Scolaire";
+
     protected function getHeaderActions(): array
     {
         return [
