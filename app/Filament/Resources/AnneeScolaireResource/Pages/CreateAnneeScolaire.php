@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateAnneeScolaire extends CreateRecord
 {
     protected static string $resource = AnneeScolaireResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
