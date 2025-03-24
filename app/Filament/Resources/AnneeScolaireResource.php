@@ -23,6 +23,8 @@ class AnneeScolaireResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
+    protected static ?int $navigationSort = 8;
+
     public static function form(Form $form): Form
     {
         return $form
