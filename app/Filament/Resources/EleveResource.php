@@ -6,6 +6,8 @@ use App\Filament\Resources\EleveResource\Pages;
 use App\Filament\Resources\EleveResource\RelationManagers;
 use App\Models\Eleve;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,45 +27,62 @@ class EleveResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('matricule')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('nom')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('postnom')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('prenom')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('date_naissance')
-                    ->required(),
-                Forms\Components\TextInput::make('lieu_naissance')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('sexe')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('telephone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('adresse')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('classe_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('section_id')
-                    ->required()
-                    ->numeric(),
-            ]);
+                Section::make('Informations personnelles')->schema([
+                    Forms\Components\TextInput::make('matricule')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('nom')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('postnom')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('prenom')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\DatePicker::make('date_naissance')
+                        ->required(),
+                    Forms\Components\TextInput::make('lieu_naissance')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('sexe')
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('telephone')
+                        ->tel()
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\Textarea::make('adresse')
+                        ->required()
+                        ->columnSpanFull(),
+                ])->columnSpan(2)->columns(2),
+                Section::make('Autres')->schema([
+                    FileUpload::make('photo')
+                        ->directory('photos'),
+                    Forms\Components\Select::make('tuteur_id')
+                        ->required()
+                        ->searchable()
+                        ->preload()
+                        ->relationship('tuteur', 'nom'),
+                    Forms\Components\Select::make('classe_id')
+                        ->required()
+                        ->searchable()
+                        ->preload()
+                        ->relationship('classe', 'nom'),
+                    Forms\Components\Select::make('section_id')
+                        ->required()
+                        ->searchable()
+                        ->preload()
+                        ->relationship('section', 'nom'),
+                ])->columnSpan(1),
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('photo'),
                 Tables\Columns\TextColumn::make('matricule')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nom')
@@ -72,21 +91,18 @@ class EleveResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('prenom')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date_naissance')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('lieu_naissance')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('sexe')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('telephone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('classe_id')
-                    ->numeric()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('classe.nom')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('section_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('section.nom')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('tuteur.nom')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
