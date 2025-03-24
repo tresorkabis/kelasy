@@ -6,9 +6,14 @@ use App\Filament\Resources\DocumentResource\Pages;
 use App\Filament\Resources\DocumentResource\RelationManagers;
 use App\Models\Document;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,7 +30,16 @@ class DocumentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('eleve_id')
+                    ->searchable()
+                    ->preload()
+                    ->relationship('eleve', 'matricule'),
+                Select::make('type_document_id')
+                    ->searchable()
+                    ->preload()
+                    ->relationship('type', 'nom'),
+                FileUpload::make('fichier')->directory('documents'),
+                TextInput::make('observation')
             ]);
     }
 
@@ -33,7 +47,8 @@ class DocumentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('fichier'),
+                TextColumn::make('observation'),
             ])
             ->filters([
                 //

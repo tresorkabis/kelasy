@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EleveResource\Pages;
 use App\Filament\Resources\EleveResource\RelationManagers;
+use App\Filament\Resources\EleveResource\RelationManagers\DocumentsRelationManager;
 use App\Models\Eleve;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -129,7 +130,7 @@ class EleveResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            DocumentsRelationManager::class
         ];
     }
 
